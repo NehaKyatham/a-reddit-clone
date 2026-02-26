@@ -1,20 +1,18 @@
 pipeline {
     agent any
-
     tools {
         jdk 'jdk17'
         nodejs 'node16'
     }
 
     environment {
-        SCANNER_HOME     = tool 'SonarQube-Scanner'
-        APP_NAME         = "reddit-clone-pipeline"
-        RELEASE          = "1.0.0"
-        DOCKER_USER      = "nehakyatham"
-        DOCKER_PASS      = 'dockerhub-token'
-        IMAGE_NAME       = "${DOCKER_USER}/${APP_NAME}"
-        IMAGE_TAG        = "${RELEASE}-${BUILD_NUMBER}"
-
+        SCANNER_HOME = tool 'SonarQube-Scanner'
+        APP_NAME     = "reddit-clone-pipeline"
+        RELEASE      = "1.0.0"
+        DOCKER_USER  = "nehakyatham"
+        DOCKER_PASS  = 'dockerhub-token'
+        IMAGE_NAME   = "${DOCKER_USER}/${APP_NAME}"
+        IMAGE_TAG    = "${RELEASE}-${BUILD_NUMBER}"
     }
 
     stages {
@@ -98,6 +96,18 @@ pipeline {
                     sh "docker rmi ${IMAGE_NAME}:latest || true"
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            emailext attachLog: true,
+                subject: "'${currentBuild.result}'",
+                body: "Project: ${env.JOB_NAME}<br/>" +
+                      "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                      "URL: ${env.BUILD_URL}<br/>",
+                to: 'nehakyatham@gmail.com',
+                attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
     }
 }
