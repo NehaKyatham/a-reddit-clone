@@ -10,7 +10,7 @@ pipeline {
         APP_NAME     = "reddit-clone-app"
         RELEASE      = "1.0.0"
         DOCKER_USER  = "nehakyatham"
-        DOCKER_PASS  = 'dockerhub-Token'
+        DOCKER_PASS  = 'dockerhub-token'
         IMAGE_NAME   = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG    = "${RELEASE}-${BUILD_NUMBER}"
     }
