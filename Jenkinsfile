@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'SonarQube-Scanner'
-        APP_NAME     = "reddit-clone-pipe"
+        APP_NAME     = "reddit-clone-app"
         RELEASE      = "1.0.0"
         DOCKER_USER  = "nehakyatham"
         DOCKER_PASS  = 'dockerhub-Token'
@@ -34,8 +34,8 @@ pipeline {
                 withSonarQubeEnv('SonarQube-Servers') {
                     sh """
                         ${SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectName=Reddit-Application \
-                        -Dsonar.projectKey=Reddit-Application
+                        -Dsonar.projectName=Reddit-Clone-CI \
+                        -Dsonar.projectKey=Reddit-Clone-CI
                     """
                 }
             }
